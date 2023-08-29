@@ -3,61 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using RcpEnum;
 
-public enum RCP
+namespace RcpEnum
 {
-    rock,
-    scissor,
-    paper
+    public enum RCP
+    {
+        rock,
+        scissor,
+        paper
+    }
+
 }
-public class RockScissorPaper : MonoBehaviour
+public class RockScissorPaper : AutoRCP
 {
-    private float timeLimit = 3;
+    private float timeLimit = 4;
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private Button[] buttons;
 
-    private RCP rcpState;
+    private bool isUI;
+    public bool isBtn;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        countText.text = Timer() == 0 ? " " : $"{Timer()}";
+        Debug.Log(isBtn);
+        countText.text = (Timer() == null)? "" : Timer()[0].ToString();
         ShowUI();
     }
 
-    private int Timer()
+    private string Timer()
     {
         float curruntTime = Time.deltaTime;
         timeLimit -= curruntTime;
-        return (int)timeLimit > 3? 0 : (int)timeLimit;
+        isUI = timeLimit < 1;
+        return timeLimit < 1? " " : timeLimit.ToString();
     }
 
     private void ShowUI()
     {
-        if(Timer() == 0)
-        {
-
-        }
+        if(isUI)
+            foreach(var i in buttons)
+                i.gameObject.SetActive(true);
     }
 
     #region UI-Button
     public void Rock()
     {
         rcpState = RCP.rock;
+        InitRcp();
     }
     public void Scissor()
     {
         rcpState = RCP.scissor;
+        InitRcp();
     }
     public void Papper()
     {
         rcpState = RCP.paper;
+        InitRcp();
     }
     #endregion
 }
