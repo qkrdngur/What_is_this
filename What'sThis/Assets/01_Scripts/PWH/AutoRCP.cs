@@ -20,14 +20,12 @@ public class AutoRCP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     public void InitRcp()
     {
         randRcp = Random.Range(0, maxRcp);
         ErcpState = (RCP)randRcp;
-        Debug.Log((int)ErcpState);
 
         switch(ErcpState)
         {
@@ -45,15 +43,21 @@ public class AutoRCP : MonoBehaviour
 
     private void CheckRcp(int Ercp)
     {
-        switch (((int)rcpState + Ercp)/ maxRcp)
+        switch ((int)rcpState - Ercp)
         {
             case 0:
                 Debug.Log("∫Ò∞Â¥Ÿ.");
                 break;
             case 1:
+                Debug.Log("¡≥¥Ÿ");
+                break ;
+            case -1:
+                Debug.Log("¿Ã∞Â¥Ÿ");
+                break;
+            case 2:
                 Debug.Log("¿Ã∞Â¥Ÿ");
                 break ;
-            case 2:
+            case -2:
                 Debug.Log("¡≥¥Ÿ");
                 break;
         }
